@@ -1,0 +1,48 @@
+body, input {
+    background-color: #23282C;
+    color: #fff;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 300;
+}
+h1, strong {
+    font-weight: 500;
+}
+.big-text {
+    font-size: 2em;
+}
+.big-text input[type=text] {
+    font-size: 0.9em;
+    border: 0 solid #999;
+    border-bottom-width: 1px;
+}
+.big-text input[type=text]:focus {
+    background-color: #283A3D;
+    outline: none;
+/*     outline: 1px dotted #99c; */
+/*     outline-offset: 1px; */
+}
+#results {
+    font-size: 1.5em;
+    display: none;
+}
+#results.has-results {
+    display: block;
+}
+.result {
+    padding: 1px 1em;
+}
+.result-yes {
+    background-color: rgb(21, 92, 44);
+}
+.result-no {
+    background-color: rgb(124, 22, 9);
+}
+.result-maybe {
+    background-color: rgb(94, 79, 23);
+}
+.result-unknown {
+    background-color: rgb(89, 89, 89);
+}
+.result em {
+    text-decoration: underline dotted;
+}
