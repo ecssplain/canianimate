@@ -1,25 +1,31 @@
 body, input {
     background-color: #23282C;
     color: #fff;
-    font-family: "Fira Sans", sans-serif;
+    /* Use the good fonts if they're available, but I'm not bothering with web font bloat */
+    font-family: "Open Sans", "Fira Sans", sans-serif;
     font-weight: 300;
 }
-h1, strong {
-    font-weight: 500;
+body {
+    margin: 1.5em;
+}
+form {
+    padding: 0 0.67em;
 }
 .big-text {
     font-size: 2em;
 }
+.big-text label {
+    line-height: 1.25;
+}
 .big-text input[type=text] {
-    font-size: 0.9em;
+    font-size: 1em;
     border: 0 solid #999;
     border-bottom-width: 1px;
+    padding: 0 0.1em;
 }
 .big-text input[type=text]:focus {
     background-color: #283A3D;
     outline: none;
-/*     outline: 1px dotted #99c; */
-/*     outline-offset: 1px; */
 }
 #results {
     font-size: 1.5em;
@@ -29,6 +35,7 @@ h1, strong {
     display: block;
 }
 .result {
+    border-radius: 0.25em;
     padding: 1px 1em;
 }
 .result-yes {
@@ -37,12 +44,16 @@ h1, strong {
 .result-no {
     background-color: rgb(124, 22, 9);
 }
-.result-maybe {
-    background-color: rgb(94, 79, 23);
+.result-sortof {
+    background-color: rgb(70, 77, 22);
 }
 .result-unknown {
-    background-color: rgb(89, 89, 89);
+    background-color: rgb(65, 62, 62);
 }
 .result em {
-    text-decoration: underline dotted;
+    white-space: nowrap;
+}
+.result small {
+    font-size: 0.75em;
+    font-style: italic;
 }
