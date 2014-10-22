@@ -8,6 +8,9 @@ body, input {
 body {
     margin: 1.5em;
 }
+body > ins {
+    margin: 0 1.5em;
+}
 form {
     padding: 0 0.67em;
 }
