@@ -11,4 +11,4 @@
 * Allow expansion of sub-properties, e.g. `border` expands to `border-width` and `border-color`, which can also expand
 * URL permalinks
 * Use Open Search protocol for searching from the address bar (requires URL permalinks)
-* Split out shorthand properties data into a separate module/repo
+* A compatibility matrix for browser support of animating certain properties, like @kangax's ES5 support matrix.
