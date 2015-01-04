@@ -11,6 +11,14 @@ body {
 body > ins {
     margin: 0 1.5em;
 }
+a {
+    color: hsl(220, 0%, 89%);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+}
+a:hover {
+    color: hsl(220, 20%, 79%);
+}
 form {
     padding: 0 0.67em;
 }

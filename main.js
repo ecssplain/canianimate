@@ -70,8 +70,11 @@
                 );
             } else {
                 html.push(
-                    '<p>As type ',
-                    joinWords(details.types.map(function (t) { return '<em>' + t + '</em>'; })),
+                    '<p>As type: ',
+                    joinWords(details.types.map(function (type) {
+                        var details = cssAnimProps.types[type];
+                        return '<a href="' + details.href + '">' + details.name + '</a>';
+                    })),
                     '.</p>'
                 );
             }
