@@ -15,17 +15,13 @@
         return list.slice(0, -1).join(', ') + lastJoiner + last;
     }
 
-    id('search-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-    }, false);
-
-    domProperty.addEventListener('input', function () {
+    function runInput() {
         var prop = domProperty.value.trim();
         domResults.classList[prop.length ? 'add' : 'remove']('has-results');
         if (prop.length) {
             showResult(prop);
         }
-    }, false);
+    }
 
     function showResult(prop) {
         var resultText, resultClass, resultSub;
@@ -85,6 +81,14 @@
         html.push('</div>');
         domResults.innerHTML = html.join('');
     }
+
+    id('search-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+    }, false);
+
+    domProperty.addEventListener('input', runInput, false);
+    window.addEventListener('load', runInput, false);
+
 })();
 
 // Analytics
