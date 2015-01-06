@@ -36,6 +36,6 @@
         });
     });
     merged.sort();
-    copy(JSON.stringify(merged));
+    copy(JSON.stringify(merged).replace(/"/g, "'"));
     console.log('Merged (%d)', merged.length, merged);
 })();

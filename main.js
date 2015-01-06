@@ -69,7 +69,7 @@
                     '<p>As type: ',
                     joinWords(details.types.map(function (type) {
                         var details = cssAnimProps.types[type];
-                        return '<a href="' + details.href + '">' + details.name + '</a>';
+                        return '<a class="type-spec-ref" href="' + details.href + '" data-type="' + type + '">' + details.name + '</a>';
                     })),
                     '.</p>'
                 );
@@ -82,12 +82,34 @@
         domResults.innerHTML = html.join('');
     }
 
+    function delegatedClass(className, callback) {
+        return function (e) {
+            if (e.target.classList.contains(className)) {
+                callback.apply(e.target, arguments);
+            }
+        };
+    }
+
+
+    // Initial setup and DOM bindings
+
     id('search-form').addEventListener('submit', function (e) {
         e.preventDefault();
     }, false);
 
     domProperty.addEventListener('input', runInput, false);
     window.addEventListener('load', runInput, false);
+
+    /*
+    domResults.addEventListener('click', delegatedClass('type-spec-ref', function (e) {
+        e.preventDefault();
+        var type = this.getAttribute('data-type');
+        var desc = type && typeDescriptions[type];
+        if (desc) {
+            domResults.innerHTML += '<small>' + desc + '</small>';
+        }
+    }), false);
+    */
 
 })();
 
