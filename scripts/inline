@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+/**
+ * A lightweight script to inline and (optionally) minify CSS and JS.
+ * Hand-rolled to avoid Grunt/Gulp/Flavour-of-the-month with their various wrappers of other
+ * modules, sometimes with outdated versions that I don't want.
+ */
+
+var fs = require('fs'),
+    path = require('path'),
+    inlineSource = require('inline-source'),
+    minify = require('html-minifier').minify;
+
+var inputPath = 'index.html';
+var outputPath = 'test.html';
+var mainDir = path.resolve(__dirname + '/../') + '/';
+
+// Inline
+var contents = inlineSource(mainDir + inputPath, {
+    compress: false,
+    attribute: ''
+});
+
+// Minify (optional with -m argument)
+if (process.argv[2] === '-m') {
+    contents = minify(contents, {
+        removeComments: true,
+        collapseWhitespace: true,
+        minifyJS: true,
+        minifyCSS: true,
+        maxLineLength: 1000
+    });
+}
+
+// Write to file
+fs.writeFileSync(mainDir + outputPath, contents);
