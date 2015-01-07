@@ -11,8 +11,8 @@ var fs = require('fs'),
     inlineSource = require('inline-source'),
     minify = require('html-minifier').minify;
 
-var inputPath = 'index.html';
-var outputPath = 'test.html';
+var inputPath = 'main.html';
+var outputPath = 'index.html';
 var mainDir = path.resolve(__dirname + '/../') + '/';
 
 // Inline
