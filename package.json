@@ -13,6 +13,9 @@
     "url": "https://github.com/ecssplain/canianimate/issues"
   },
   "homepage": "http://canianimate.com/",
+  "scripts": {
+    "build": "./scripts/inline -m"
+  },
   "devDependencies": {
     "css-animated-properties": "^1.0.0",
     "css-shorthand-properties": "^1.0.0",
