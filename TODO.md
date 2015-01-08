@@ -1,6 +1,5 @@
 # Ideas / things to do
 
-* Minify+inline CSS/JS as a build process
 * Add some explanation text (e.g. an "About" section)
 * Auto-complete for property names
 * More details for partially-animated properties like font
