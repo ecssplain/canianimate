@@ -50,6 +50,11 @@
             if (knownProps.indexOf(prop) === -1 && !isShorthand) {
                 resultText = 'I don’t know that property';
                 resultClass = 'unknown';
+            // Special case
+            } else if (prop === 'background-image') {
+                resultClass = 'sortof';
+                resultText = 'Sort of';
+                resultSub = 'The spec says <code>background-image</code> can’t be animated, but some browsers can animate it in certain ways. For example, some browsers will animate gradients but not image URLs, and vice versa. It’s probably best not to rely on it working the way you want.';
             } else {
                 resultText = 'Nope';
                 resultClass = 'no';

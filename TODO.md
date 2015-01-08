@@ -12,4 +12,3 @@
 * Use Open Search protocol for searching from the address bar (requires URL permalinks)
 * A compatibility matrix for browser support of animating certain properties, like @kangax's ES5 support matrix.
 * Easter eggs (re-animate corpses)
-* Add special case for `background-image`
