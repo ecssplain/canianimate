@@ -6,6 +6,25 @@
     var knownProps = ["align-content","align-items","align-self","alignment-baseline","animation-delay","animation-direction","animation-duration","animation-fill-mode","animation-iteration-count","animation-name","animation-play-state","animation-timing-function","backface-visibility","background-attachment","background-blend-mode","background-clip","background-color","background-image","background-origin","background-position","background-repeat","background-size","baseline-shift","border-bottom-color","border-bottom-left-radius","border-bottom-right-radius","border-bottom-style","border-bottom-width","border-collapse","border-image-outset","border-image-repeat","border-image-slice","border-image-source","border-image-width","border-left-color","border-left-style","border-left-width","border-right-color","border-right-style","border-right-width","border-spacing","border-top-color","border-top-left-radius","border-top-right-radius","border-top-style","border-top-width","bottom","box-decoration-break","box-shadow","box-sizing","buffered-rendering","caption-side","clear","clip","clip-path","clip-rule","color","color-interpolation","color-interpolation-filters","color-rendering","content","counter-increment","counter-reset","cursor","direction","display","dominant-baseline","empty-cells","fill","fill-opacity","fill-rule","filter","flex-basis","flex-direction","flex-grow","flex-shrink","flex-wrap","float","flood-color","flood-opacity","font-family","font-feature-settings","font-kerning","font-language-override","font-size","font-size-adjust","font-stretch","font-style","font-synthesis","font-variant","font-variant-alternates","font-variant-caps","font-variant-east-asian","font-variant-ligatures","font-variant-numeric","font-variant-position","font-weight","glyph-orientation-horizontal","glyph-orientation-vertical","grid-auto-columns","grid-auto-flow","grid-auto-rows","grid-column-end","grid-column-start","grid-row-end","grid-row-start","grid-template-areas","grid-template-columns","grid-template-rows","height","image-orientation","image-rendering","ime-mode","isolation","justify-content","justify-items","justify-self","left","letter-spacing","lighting-color","line-height","list-style-image","list-style-position","list-style-type","margin-bottom","margin-left","margin-right","margin-top","marker-end","marker-mid","marker-offset","marker-start","mask","mask-source-type","mask-type","max-height","max-width","min-height","min-width","mix-blend-mode","object-fit","object-position","opacity","order","orphans","outline-color","outline-offset","outline-style","outline-width","overflow","overflow-wrap","overflow-x","overflow-y","padding-bottom","padding-left","padding-right","padding-top","page-break-after","page-break-before","page-break-inside","paint-order","perspective","perspective-origin","pointer-events","position","quotes","resize","right","scroll-behavior","shape-image-threshold","shape-margin","shape-outside","shape-rendering","speak","stop-color","stop-opacity","stroke","stroke-dasharray","stroke-dashoffset","stroke-linecap","stroke-linejoin","stroke-miterlimit","stroke-opacity","stroke-width","tab-size","table-layout","text-align","text-align-last","text-anchor","text-decoration","text-decoration-color","text-decoration-line","text-decoration-style","text-indent","text-justify","text-overflow","text-rendering","text-shadow","text-transform","text-underline-position","top","touch-action","transform","transform-origin","transform-style","transition-delay","transition-duration","transition-property","transition-timing-function","unicode-bidi","vector-effect","vertical-align","visibility","white-space","widows","width","will-change","word-break","word-spacing","word-wrap","writing-mode","z-index","zoom"];
     var shorthands = cssShorthandProps.shorthandProperties;
 
+    var templates = {
+        cache: {},
+        get: function (name) {
+            if (name in templates.cache) {
+                return templates.cache[name];
+            }
+            var elem = document.getElementById('tpl-' + name);
+            if (!elem) {
+                return [];
+            }
+            var tpl = templates.cache[name] = elem.innerHTML;
+            return tpl;
+        },
+        render: function (name, data) {
+            var tpl = templates.get(name);
+            return Mustache.render(tpl, data);
+        }
+    };
+
     function joinWords(list, lastJoiner) {
         if (list.length < 2) {
             return list.join();
@@ -23,12 +42,42 @@
         }
     }
 
+    var resultTypes = {
+        yes: {
+            result: 'Yep',
+            headline: 'This property is animatable as ',
+        },
+        no: {
+            result: 'Nope',
+            headline: 'Sorry.'
+        },
+        shorthandYes: {
+            className: 'yes',
+            result: 'Yep',
+            headline: 'As a combination of other properties: ',
+            subhead: 'Depending on your use case, it’s probably better to animate the individual properties, to avoid clobbering other values.'
+        },
+        shorthandMixed: {
+            className: 'sortof',
+            result: 'A bit',
+            headline: 'As a combination of other properties: ',
+            subhead: 'Depending on your use case, it’s probably better to animate the individual properties, to avoid clobbering other values.'
+        },
+        backgroundColor: {
+            className: 'sortof',
+            result: 'Sort of',
+            headline: '(It’s complicated.)',
+            subhead: 'The spec says <code>background-image</code> can’t be animated, but some browsers can animate it in certain ways. For example, some browsers will animate gradients but not image URLs, and vice versa. It’s probably best not to rely on it working the way you want.'
+        },
+        unknown: {
+            headline: 'I don’t know that property.'
+        }
+    };
+
     function showResult(prop) {
-        var resultText, resultClass, resultSub;
         var canAnimate = cssAnimProps.canAnimate(prop);
         var isShorthand = (prop in shorthands);
-        var html = [];
-        var canAnimatePartial, details;
+        var canAnimatePartial, details, type, typeData, typeExtra;
         if (canAnimate) {
             details = cssAnimProps.getProperty(prop);
             if (isShorthand) {
@@ -37,54 +86,36 @@
                         canAnimatePartial = true;
                     }
                 });
-            }
-            if (canAnimatePartial) {
-                resultText = 'A bit';
-                resultClass = 'sortof';
-                resultSub = 'Although it’s probably better to animate the individual properties, to avoid clobbering other values'
+                type = canAnimatePartial ? 'shorthandMixed' : 'shorthandYes';
+                typeExtra = joinWords(details.properties.map(function (p) {
+                    return '<em>' + p + '</em>';
+                }), ' and ');
             } else {
-                resultText = 'Yep';
-                resultClass = 'yes';
+                type = 'yes';
+                typeExtra = (details.types[0] === 'integer') ? 'an ' : 'a ';
+                typeExtra += joinWords(details.types.map(function (type) {
+                    var details = cssAnimProps.types[type];
+                    return '<a class="type-spec-ref" href="' + details.href + '" data-type="' + type + '">' + details.name + '</a>';
+                }))
             }
         } else {
             if (knownProps.indexOf(prop) === -1 && !isShorthand) {
-                resultText = 'I don’t know that property';
-                resultClass = 'unknown';
+                type = 'unknown';
             // Special case
             } else if (prop === 'background-image') {
-                resultClass = 'sortof';
-                resultText = 'Sort of';
-                resultSub = 'The spec says <code>background-image</code> can’t be animated, but some browsers can animate it in certain ways. For example, some browsers will animate gradients but not image URLs, and vice versa. It’s probably best not to rely on it working the way you want.';
+                type = 'backgroundColor';
             } else {
-                resultText = 'Nope';
-                resultClass = 'no';
+                type = 'no';
             }
         }
-        html.push('<div class="result result-', resultClass, '">',
-            '<p><strong>', resultText, '</strong></p>');
-        if (canAnimate) {
-            if (details.properties) {
-                html.push(
-                    '<p>As a combination of individual properties: ',
-                    details.properties.map(function (p) { return '<em>' + p + '</em>'; }).join(', '),
-                    '</p>'
-                );
-            } else {
-                html.push(
-                    '<p>As type: ',
-                    joinWords(details.types.map(function (type) {
-                        var details = cssAnimProps.types[type];
-                        return '<a class="type-spec-ref" href="' + details.href + '" data-type="' + type + '">' + details.name + '</a>';
-                    })),
-                    '.</p>'
-                );
-            }
+        typeData = Object.create(resultTypes[type]);
+        if (!typeData.className) {
+            typeData.className = type;
         }
-        if (resultSub) {
-            html.push('<p><small>(', resultSub, ')</small></p>');
+        if (typeExtra) {
+            typeData.headline += typeExtra;
         }
-        html.push('</div>');
-        domResults.innerHTML = html.join('');
+        domResults.innerHTML = templates.render('result', typeData);
     }
 
     function delegatedClass(className, callback) {

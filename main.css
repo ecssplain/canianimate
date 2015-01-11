@@ -11,6 +11,10 @@ body {
 body > ins {
     margin: 0 1.5em;
 }
+template {
+    /* Hide the template element from older browsers that don't support it */
+    display: none;
+}
 a {
     color: hsl(220, 0%, 89%);
     text-decoration: none;

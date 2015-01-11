@@ -20,6 +20,7 @@
     "css-animated-properties": "^1.0.0",
     "css-shorthand-properties": "^1.0.0",
     "html-minifier": "^0.6.9",
-    "inline-source": "^1.1.2"
+    "inline-source": "^1.1.2",
+    "mustache": "^1.0.0"
   }
 }

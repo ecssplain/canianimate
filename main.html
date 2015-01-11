@@ -22,8 +22,16 @@
 
     <div id="results"></div>
 
+    <template id="tpl-result">
+        <div class="result result-{{className}}">
+            <p>{{#result}}<strong>{{result}}.</strong>{{/result}} {{{headline}}}</p>
+            {{#subhead}}<p><small>{{{subhead}}}</small></p>{{/subhead}}
+        </div>
+    </template>
+
     <script src="node_modules/css-animated-properties/index.js"></script>
     <script src="node_modules/css-shorthand-properties/index.js"></script>
+    <script src="node_modules/mustache/mustache.js"></script>
     <!-- // <script src="css-anim-types.js"></script> -->
     <script src="main.js"></script>
     <!-- // <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
