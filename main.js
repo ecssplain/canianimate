@@ -42,42 +42,19 @@
         }
     }
 
-    var resultTypes = {
-        yes: {
-            result: 'Yep',
-            headline: 'This property is animatable as ',
-        },
-        no: {
-            result: 'Nope',
-            headline: 'Sorry.'
-        },
-        shorthandYes: {
-            className: 'yes',
-            result: 'Yep',
-            headline: 'As a combination of other properties: ',
-            subhead: 'Depending on your use case, it’s probably better to animate the individual properties, to avoid clobbering other values.'
-        },
-        shorthandMixed: {
-            className: 'sortof',
-            result: 'A bit',
-            headline: 'As a combination of other properties: ',
-            subhead: 'Depending on your use case, it’s probably better to animate the individual properties, to avoid clobbering other values.'
-        },
-        backgroundColor: {
-            className: 'sortof',
-            result: 'Sort of',
-            headline: '(It’s complicated.)',
-            subhead: 'The spec says <code>background-image</code> can’t be animated, but some browsers can animate it in certain ways. For example, some browsers will animate gradients but not image URLs, and vice versa. It’s probably best not to rely on it working the way you want.'
-        },
-        unknown: {
-            headline: 'I don’t know that property.'
-        }
+    var resultSubs = {
+        shorthand: 'Depending on your use case, it’s probably better to animate the individual properties, to avoid clobbering other values.',
+        backgroundImage: 'The spec says <code>background-image</code> can’t be animated, but some browsers can animate it in certain ways. For example, some browsers will animate gradients but not image URLs, and vice versa. It’s probably best not to rely on it working the way you want.'
     };
 
     function showResult(prop) {
         var canAnimate = cssAnimProps.canAnimate(prop);
         var isShorthand = (prop in shorthands);
-        var canAnimatePartial, details, type, typeData, typeExtra;
+        var html = [];
+        var data = {
+            property: prop
+        };
+        var canAnimatePartial, details;
         if (canAnimate) {
             details = cssAnimProps.getProperty(prop);
             if (isShorthand) {
@@ -86,36 +63,62 @@
                         canAnimatePartial = true;
                     }
                 });
-                type = canAnimatePartial ? 'shorthandMixed' : 'shorthandYes';
-                typeExtra = joinWords(details.properties.map(function (p) {
+                data.result_shorthand = true;
+                data.result = canAnimatePartial ? 'A bit' : 'Yep';
+                data.className = canAnimatePartial ? 'shorthand-mixed' : 'shorthand-yes';
+                data.properties = joinWords(details.properties.map(function (p) {
                     return '<em>' + p + '</em>';
                 }), ' and ');
             } else {
-                type = 'yes';
-                typeExtra = (details.types[0] === 'integer') ? 'an ' : 'a ';
-                typeExtra += joinWords(details.types.map(function (type) {
-                    var details = cssAnimProps.types[type];
-                    return '<a class="type-spec-ref" href="' + details.href + '" data-type="' + type + '">' + details.name + '</a>';
-                }))
+                data.result_yes = true;
+                data.result = 'Yep';
+                data.className = 'yes';
+                data.types = details.types.map(function (type, i) {
+                    var typeData = cssAnimProps.types[type];
+                    var prefix = (type === 'integer') ? 'an' : 'a';
+                    if (i && i === details.types.length - 1) {
+                        prefix = 'or';
+                    }
+                    return {
+                        type: type,
+                        name: typeData.name,
+                        href: typeData.href,
+                        prefix: prefix
+                    };
+                });
             }
         } else {
             if (knownProps.indexOf(prop) === -1 && !isShorthand) {
-                type = 'unknown';
+                data.result_unknown = true;
+                data.className = 'unknown';
             // Special case
             } else if (prop === 'background-image') {
-                type = 'backgroundColor';
+                data.result_sortof_bgimage = true;
+                data.result = 'Sort of';
+                data.className = 'sortof';
             } else {
-                type = 'no';
+                data.result_no = true;
+                data.result = 'Nope'
+                data.className = 'no';
             }
         }
-        typeData = Object.create(resultTypes[type]);
-        if (!typeData.className) {
-            typeData.className = type;
-        }
-        if (typeExtra) {
-            typeData.headline += typeExtra;
-        }
-        domResults.innerHTML = templates.render('result', typeData);
+        html.push(templates.render('result', data));
+
+        domResults.innerHTML = html.join('');
+    }
+
+    function showAnimType(type) {
+        var desc = typeDescriptions[type] || {};
+        var details = cssAnimProps.types[type] || {};
+        var data = {
+            key: type,
+            name: details.name,
+            desc: {
+                spec: desc,
+                human: 'TBC'
+            }
+        };
+        return templates.render('animtype', data);
     }
 
     function delegatedClass(className, callback) {
