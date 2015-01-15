@@ -24,39 +24,47 @@
 
     <script id="tpl-result" type="text/x-mustache-template">
         <div class="result result-{{className}}">
-            {{^result_unknown}}
-            <p>{{#result}}<strong>{{result}}.</strong>{{/result}}
-                <code>{{property}}</code> is
-                {{#result_yes}}
-                    animatable as
-                    {{#types}}
-                        {{prefix}} <a href="{{href}}" class="link-animtype link-animtype-spec" data-type="{{type}}">{{name}}</a>
-                    {{/types}}
-                {{/result_yes}}
-                {{#result_no}}
-                    not an animatable property.
-                {{/result_no}}
-                {{#result_shorthand}}
-                    a shorthand combination of other properties.
-                {{/result_shorthand}}
-                {{#result_sortof_bgimage}}
-                    confused.
-                {{/result_sortof_bgimage}}
-            </p>
-            {{#subhead}}<p><small>{{{subhead}}}</small></p>{{/subhead}}
-            {{/result_unknown}}
-            {{#result_unknown}}
-                <p>I don’t know that property.</p>
-            {{/result_unknown}}
+            <div class="headline">
+                {{^result_unknown}}
+                <p>{{#result}}<strong>{{ result }}.</strong>{{/result}}
+                    <code>{{ property }}</code> is
+                    {{#result_yes}}
+                        animatable as
+                        {{#types}}
+                            {{ prefix }} <a href="{{ href }}" class="link-animtype link-animtype-spec" data-type="{{ type }}">{{ name }}</a>
+                        {{/types}}
+                    {{/result_yes}}
+                    {{#result_no}}
+                        not an animatable property.
+                    {{/result_no}}
+                    {{#result_shorthand}}
+                        a shorthand combination of other properties.
+                    {{/result_shorthand}}
+                    {{#result_sortof_bgimage}}
+                        confused.
+                    {{/result_sortof_bgimage}}
+                </p>
+                {{#subhead}}<p><small>{{{subhead}}}</small></p>{{/subhead}}
+                {{/result_unknown}}
+                {{#result_unknown}}
+                    <p>I don’t know that property.</p>
+                {{/result_unknown}}
+            </div>
+            <div class="details"></div>
         </div>
     </script>
     <script id="tpl-animtype" type="text/x-mustache-template">
-        <section class="animtype animtype-{{key}}">
-            <h2>How “{{name}}” animates <small>(a.k.a. the details of interpolation)</small></h2>
-            <p>The <a href="{{href}}">specification</a> says:</p>
-            <blockquote>{{desc.spec}}</blockquote>
+        <section class="animtype animtype-{{ key }}">
+            <h2>How “{{ name }}” animates <small>(a.k.a. the details of interpolation)</small></h2>
+            <p>The <a href="{{ href }}">specification</a> says:</p>
+            <blockquote>{{ desc.spec }}</blockquote>
             <p>What it actually means:</p>
-            <p>{{desc.human}}</p>
+            <p>{{ desc.human }}</p>
+        </section>
+    </script>
+    <script id="tpl-shorthand" type="text/x-mustache-template">
+        <section class="shorthand">
+            <p>These longhand properties can be animated: {{& properties_html }}</p>
         </section>
     </script>
 

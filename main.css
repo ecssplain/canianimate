@@ -11,17 +11,18 @@ body {
 body > ins {
     margin: 0 1.5em;
 }
-template {
-    /* Hide the template element from older browsers that don't support it */
-    display: none;
-}
 a {
-    color: hsl(220, 0%, 89%);
+/*     color: hsl(220, 0%, 89%); */
+    color: #fff;
     text-decoration: none;
     border-bottom: 1px solid currentColor;
 }
 a:hover {
-    color: hsl(220, 20%, 79%);
+/*     color: hsl(220, 20%, 79%); */
+    border-bottom-color: transparent;
+}
+blockquote {
+    font-style: italic;
 }
 form {
     padding: 0 0.67em;
@@ -43,24 +44,49 @@ form {
     outline: none;
 }
 #results {
-    font-size: 1.5em;
+    font-size: 1.125em;
     display: none;
 }
 #results.has-results {
     display: block;
 }
+
 .result {
+    background-color: #033154;
     border-radius: 0.25em;
-    padding: 1px 1em;
+    overflow: hidden;
 }
-.result-yes {
+.result .headline {
+    padding: 0 1em;
+}
+.headline,
+.headline code {
+    font-size: 1.33333333em;
+}
+.animtype {
+    background-color: #065896;
+    border-radius: 0.25em;
+    overflow: hidden;
+    padding: 0 1em;
+}
+.animtype h2 {
+    font-size: 1em;
+}
+.shorthand {
+    border-top: 1px dashed #fff;
+    overflow: hidden;
+    margin: 0 1em;
+}
+
+/*
+.result-yes, .result-shorthand-yes {
     background-color: rgb(21, 92, 44);
 }
 .result-no {
     background-color: rgb(124, 22, 9);
 }
-.result-sortof {
-    background-color: rgb(70, 77, 22);
+.result-sortof, .result-shorthand-mixed {
+    background-color: #054575;
 }
 .result-unknown {
     background-color: rgb(65, 62, 62);
@@ -72,3 +98,4 @@ form {
     font-size: 0.75em;
     font-style: italic;
 }
+*/

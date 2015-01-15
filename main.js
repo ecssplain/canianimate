@@ -22,6 +22,20 @@
         render: function (name, data) {
             var tpl = templates.get(name);
             return Mustache.render(tpl, data);
+        },
+        renderAsNode: function (name, data) {
+            var htmlString = templates.render(name, data);
+            var holder = document.createElement('div');
+            holder.innerHTML = htmlString;
+            return holder;
+        },
+        renderAsFragment: function (name, data) {
+            var holder = templates.renderAsNode(name, data);
+            while (holder.childNodes.length) {
+                // childNodes is a live NodeList, so appending to the fragment removes it from holder
+                frag.appendChild(holder.childNodes[0]);
+            }
+            return frag;
         }
     };
 
@@ -50,11 +64,10 @@
     function showResult(prop) {
         var canAnimate = cssAnimProps.canAnimate(prop);
         var isShorthand = (prop in shorthands);
-        var html = [];
         var data = {
             property: prop
         };
-        var canAnimatePartial, details;
+        var canAnimatePartial, details, output;
         if (canAnimate) {
             details = cssAnimProps.getProperty(prop);
             if (isShorthand) {
@@ -66,9 +79,6 @@
                 data.result_shorthand = true;
                 data.result = canAnimatePartial ? 'A bit' : 'Yep';
                 data.className = canAnimatePartial ? 'shorthand-mixed' : 'shorthand-yes';
-                data.properties = joinWords(details.properties.map(function (p) {
-                    return '<em>' + p + '</em>';
-                }), ' and ');
             } else {
                 data.result_yes = true;
                 data.result = 'Yep';
@@ -102,9 +112,22 @@
                 data.className = 'no';
             }
         }
-        html.push(templates.render('result', data));
 
-        domResults.innerHTML = html.join('');
+        output = templates.renderAsNode('result', data);
+        if (canAnimate) {
+            output.querySelector('.details').innerHTML = isShorthand ?
+                showShorthand(details) :
+                showAnimType(details.types[0]);
+        }
+        domResults.innerHTML = output.innerHTML;
+    }
+
+    function showShorthand(details) {
+        var data = Object.create(details);
+        data.properties_html = joinWords(data.properties.map(function (p) {
+            return '<em>' + p + '</em>';
+        }), ' and ');
+        return templates.render('shorthand', data);
     }
 
     function showAnimType(type) {
@@ -115,7 +138,7 @@
             name: details.name,
             desc: {
                 spec: desc,
-                human: 'TBC'
+                human: '(This bit isn’t finished yet)'
             }
         };
         return templates.render('animtype', data);
