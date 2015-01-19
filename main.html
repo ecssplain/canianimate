@@ -59,12 +59,38 @@
             <p>The <a href="{{ href }}">specification</a> says:</p>
             <blockquote>{{ desc.spec }}</blockquote>
             <p>What it actually means:</p>
-            <p>{{ desc.human }}</p>
+            {{#desc.human}}
+                <p>{{ . }}</p>
+            {{/desc.human}}
         </section>
     </script>
     <script id="tpl-shorthand" type="text/x-mustache-template">
-        <section class="shorthand">
-            <p>These longhand properties can be animated: {{& properties_html }}</p>
+        <section class="shorthand-details">
+            <p><code>{{ name }}</code> is a shorthand property that combines other properties, {{ compatibility }} of which can be animated.</p>
+            <p><em>(Depending on your use case, it might be better to animate the individual properties, to avoid accidentally overwriting other values.)</em></p>
+            <p>These expanded properties <strong>can</strong> be animated:</p>
+            <ul class="longhand-list">
+            {{#propertiesYes}}
+                <li>
+                    <code>{{ name }}</code> as
+                    {{#types}}
+                        {{ prefix }} <a href="{{ href }}" class="link-animtype link-animtype-spec" data-type="{{ type }}">{{ name }}</a>
+                    {{/types}}
+                </li>
+            {{/propertiesYes}}
+            </ul>
+            {{#isPartial}}
+                <div class="shorthand-unanimatable">
+                    <p>These expanded properties can <strong>not</strong> be animated:</p>
+                    <ul class="longhand-list">
+                    {{#propertiesNo}}
+                        <li>
+                            <code>{{ . }}</code>
+                        </li>
+                    {{/propertiesNo}}
+                    </ul>
+                </div>
+            {{/isPartial}}
         </section>
     </script>
 

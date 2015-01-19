@@ -24,6 +24,9 @@ a:hover {
 blockquote {
     font-style: italic;
 }
+code {
+    font-family: "Fira Mono", Menlo, "Consolas", "Courier New";
+}
 form {
     padding: 0 0.67em;
 }
@@ -59,8 +62,7 @@ form {
 .result .headline {
     padding: 0 1em;
 }
-.headline,
-.headline code {
+.headline {
     font-size: 1.33333333em;
 }
 .animtype {
@@ -72,10 +74,28 @@ form {
 .animtype h2 {
     font-size: 1em;
 }
-.shorthand {
+.shorthand-details {
     border-top: 1px dashed #fff;
     overflow: hidden;
     margin: 0 1em;
+}
+.shorthand-unanimatable {
+    color: rgba(255, 255, 255, 0.7);
+}
+.longhand-list {
+    display: table;
+    line-height: 1.5;
+}
+.longhand-list li {
+    display: table-row;
+}
+.longhand-list li::before {
+    content: '»';
+    margin-right: 0.25em;
+}
+.longhand-list code {
+    display: table-cell;
+    padding-right: 1em;
 }
 
 /*

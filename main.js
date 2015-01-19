@@ -31,9 +31,10 @@
         },
         renderAsFragment: function (name, data) {
             var holder = templates.renderAsNode(name, data);
-            while (holder.childNodes.length) {
+            var node;
+            while ((node = holder.childNodes[0])) {
                 // childNodes is a live NodeList, so appending to the fragment removes it from holder
-                frag.appendChild(holder.childNodes[0]);
+                frag.appendChild(node);
             }
             return frag;
         }
@@ -46,6 +47,22 @@
         lastJoiner || (lastJoiner = ' or ');
         var last = list.slice(-1);
         return list.slice(0, -1).join(', ') + lastJoiner + last;
+    }
+
+    function getTypeDetails(types) {
+        return types.map(function (type, index) {
+            var typeData = cssAnimProps.types[type];
+            var prefix = (type === 'integer') ? 'an' : 'a';
+            if (index && index === types.length - 1) {
+                prefix = 'or';
+            }
+            return {
+                type: type,
+                name: typeData.name,
+                href: typeData.href,
+                prefix: prefix
+            };
+        })
     }
 
     function runInput() {
@@ -63,15 +80,17 @@
 
     function showResult(prop) {
         var canAnimate = cssAnimProps.canAnimate(prop);
+        var canAnimatePartial = false;
         var isShorthand = (prop in shorthands);
         var data = {
             property: prop
         };
-        var canAnimatePartial, details, output;
+        var details, longhands, output;
         if (canAnimate) {
             details = cssAnimProps.getProperty(prop);
             if (isShorthand) {
-                cssShorthandProps.expand(prop).forEach(function (p) {
+                longhands = cssShorthandProps.expand(prop);
+                longhands.forEach(function (p) {
                     if (details.properties.indexOf(p) === -1) {
                         canAnimatePartial = true;
                     }
@@ -83,19 +102,7 @@
                 data.result_yes = true;
                 data.result = 'Yep';
                 data.className = 'yes';
-                data.types = details.types.map(function (type, i) {
-                    var typeData = cssAnimProps.types[type];
-                    var prefix = (type === 'integer') ? 'an' : 'a';
-                    if (i && i === details.types.length - 1) {
-                        prefix = 'or';
-                    }
-                    return {
-                        type: type,
-                        name: typeData.name,
-                        href: typeData.href,
-                        prefix: prefix
-                    };
-                });
+                data.types = getTypeDetails(details.types);
             }
         } else {
             if (knownProps.indexOf(prop) === -1 && !isShorthand) {
@@ -116,17 +123,34 @@
         output = templates.renderAsNode('result', data);
         if (canAnimate) {
             output.querySelector('.details').innerHTML = isShorthand ?
-                showShorthand(details) :
+                showShorthand(details, {
+                    canAnimate: canAnimate,
+                    isPartial: canAnimatePartial,
+                    longhands: longhands
+                }) :
                 showAnimType(details.types[0]);
         }
         domResults.innerHTML = output.innerHTML;
     }
 
-    function showShorthand(details) {
+    function showShorthand(details, extra) {
         var data = Object.create(details);
-        data.properties_html = joinWords(data.properties.map(function (p) {
-            return '<em>' + p + '</em>';
-        }), ' and ');
+        data.compatibility = extra.isPartial ? 'only some' : 'all';
+        data.isPartial = extra.isPartial;
+        if (extra.canAnimate) {
+            data.propertiesYes = data.properties.map(function (prop) {
+                var subDetails = cssAnimProps.getProperty(prop);
+                return {
+                    name: prop,
+                    types: getTypeDetails(subDetails.types)
+                };
+            });
+        }
+        if (data.isPartial) {
+            data.propertiesNo = extra.longhands.filter(function (prop) {
+                return data.properties.indexOf(prop) === -1;
+            });
+        }
         return templates.render('shorthand', data);
     }
 
@@ -136,10 +160,7 @@
         var data = {
             key: type,
             name: details.name,
-            desc: {
-                spec: desc,
-                human: '(This bit isn’t finished yet)'
-            }
+            desc: desc
         };
         return templates.render('animtype', data);
     }
@@ -161,17 +182,6 @@
 
     domProperty.addEventListener('input', runInput, false);
     window.addEventListener('load', runInput, false);
-
-    /*
-    domResults.addEventListener('click', delegatedClass('type-spec-ref', function (e) {
-        e.preventDefault();
-        var type = this.getAttribute('data-type');
-        var desc = type && typeDescriptions[type];
-        if (desc) {
-            domResults.innerHTML += '<small>' + desc + '</small>';
-        }
-    }), false);
-    */
 
 })();
 
