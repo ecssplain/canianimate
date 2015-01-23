@@ -57,11 +57,13 @@
         <section class="animtype animtype-{{ key }}">
             <h2>How “{{ name }}” animates <small>(a.k.a. the details of interpolation)</small></h2>
             <p>The <a href="{{ href }}">specification</a> says:</p>
-            <blockquote>{{ desc.spec }}</blockquote>
+            <blockquote class="spec">{{& desc.spec }}</blockquote>
+            <!--
             <p>What it actually means:</p>
             {{#desc.human}}
                 <p>{{ . }}</p>
             {{/desc.human}}
+            -->
         </section>
     </script>
     <script id="tpl-shorthand" type="text/x-mustache-template">
@@ -81,7 +83,7 @@
             </ul>
             {{#isPartial}}
                 <div class="shorthand-unanimatable">
-                    <p>These expanded properties can <strong>not</strong> be animated:</p>
+                    <p>These expanded properties will be set by a <code>{{ name }}</code> value, but can <strong>not</strong> be animated:</p>
                     <ul class="longhand-list">
                     {{#propertiesNo}}
                         <li>
@@ -91,6 +93,13 @@
                     </ul>
                 </div>
             {{/isPartial}}
+        </section>
+    </script>
+    <script id="tpl-bgimage" type="text/x-mustache-template">
+        <section class="shorthand-details">
+            <p>The specification says <code>background-image</code> can’t be animated, but some browsers can animate it in certain ways. For example, some browsers will animate gradients but not image URLs, and vice versa.</p>
+            <p><strong>It’s probably best not to rely on it working the way you want.</strong></p>
+            <p>For more details on what individual browsers do with this property, see <a href="http://thewebevolved.com/support/animation/properties/">CSS Animatable Properties: Browser support</a> by Oli Studholme and Rodney Rehm.</p>
         </section>
     </script>
 

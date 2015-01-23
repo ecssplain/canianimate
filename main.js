@@ -73,11 +73,6 @@
         }
     }
 
-    var resultSubs = {
-        shorthand: 'Depending on your use case, it’s probably better to animate the individual properties, to avoid clobbering other values.',
-        backgroundImage: 'The spec says <code>background-image</code> can’t be animated, but some browsers can animate it in certain ways. For example, some browsers will animate gradients but not image URLs, and vice versa. It’s probably best not to rely on it working the way you want.'
-    };
-
     function showResult(prop) {
         var canAnimate = cssAnimProps.canAnimate(prop);
         var canAnimatePartial = false;
@@ -129,6 +124,9 @@
                     longhands: longhands
                 }) :
                 showAnimType(details.types[0]);
+        // Special case
+        } else if (prop === 'background-image') {
+            output.querySelector('.details').innerHTML = templates.render('bgimage', data);
         }
         domResults.innerHTML = output.innerHTML;
     }
@@ -160,8 +158,10 @@
         var data = {
             key: type,
             name: details.name,
+            href: details.href,
             desc: desc
         };
+
         return templates.render('animtype', data);
     }
 

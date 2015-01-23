@@ -4,6 +4,7 @@ body, input {
     /* Use the good fonts if they're available, but I'm not bothering with web font bloat */
     font-family: "Open Sans", "Fira Sans", sans-serif;
     font-weight: 300;
+    line-height: 1.5;
 }
 body {
     margin: 1.5em;
@@ -12,14 +13,14 @@ body > ins {
     margin: 0 1.5em;
 }
 a {
-/*     color: hsl(220, 0%, 89%); */
     color: #fff;
     text-decoration: none;
     border-bottom: 1px solid currentColor;
 }
 a:hover {
-/*     color: hsl(220, 20%, 79%); */
+    background-color: rgba(255,255,255,0.2);
     border-bottom-color: transparent;
+    border-radius: 1px;
 }
 blockquote {
     font-style: italic;
@@ -28,7 +29,7 @@ code {
     font-family: "Fira Mono", Menlo, "Consolas", "Courier New";
 }
 form {
-    padding: 0 0.67em;
+    padding: 0 0.5265em;
 }
 .big-text {
     font-size: 2em;
@@ -60,7 +61,7 @@ form {
     overflow: hidden;
 }
 .result .headline {
-    padding: 0 1em;
+    padding: 0 0.75em;
 }
 .headline {
     font-size: 1.33333333em;
@@ -76,11 +77,12 @@ form {
 }
 .shorthand-details {
     border-top: 1px dashed #fff;
-    overflow: hidden;
     margin: 0 1em;
+    overflow: hidden;
 }
 .shorthand-unanimatable {
-    color: rgba(255, 255, 255, 0.7);
+    border-top: 1px dashed currentColor;
+    color: rgba(255, 255, 255, 0.6);
 }
 .longhand-list {
     display: table;
@@ -97,6 +99,11 @@ form {
     display: table-cell;
     padding-right: 1em;
 }
+
+/* These rules from w3.org, to match the visual display of specs */
+.spec .css::before {content: "\2018";}
+.spec .css::after {content: "\2019";}
+.spec code.css {font-family: inherit;}
 
 /*
 .result-yes, .result-shorthand-yes {
