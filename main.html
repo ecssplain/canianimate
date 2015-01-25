@@ -78,12 +78,15 @@
                     {{#types}}
                         {{ prefix }} <a href="{{ href }}" class="link-animtype link-animtype-spec" data-type="{{ type }}">{{ name }}</a>
                     {{/types}}
+                    {{#isShorthand}}
+                        a shorthand
+                    {{/isShorthand}}
                 </li>
             {{/propertiesYes}}
             </ul>
             {{#isPartial}}
                 <div class="shorthand-unanimatable">
-                    <p>These expanded properties will be set by a <code>{{ name }}</code> value, but can <strong>not</strong> be animated:</p>
+                    <p>These expanded properties will be set by <code>{{ name }}</code>, but can <strong>not</strong> be animated:</p>
                     <ul class="longhand-list">
                     {{#propertiesNo}}
                         <li>

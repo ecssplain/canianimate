@@ -138,9 +138,16 @@
         if (extra.canAnimate) {
             data.propertiesYes = data.properties.map(function (prop) {
                 var subDetails = cssAnimProps.getProperty(prop);
+                var subProps;
+                // Special case: Only `border` is a shorthand of shorthands
+                if (subDetails.properties) {
+                    subProps = subDetails.properties;
+                }
                 return {
                     name: prop,
-                    types: getTypeDetails(subDetails.types)
+                    types: subDetails.types && getTypeDetails(subDetails.types),
+                    properties: subProps,
+                    isShorthand: !!subProps
                 };
             });
         }
