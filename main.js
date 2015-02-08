@@ -74,6 +74,7 @@
     }
 
     function showResult(prop) {
+        prop = prop.toLowerCase();
         var canAnimate = cssAnimProps.canAnimate(prop);
         var canAnimatePartial = false;
         var isShorthand = (prop in shorthands);

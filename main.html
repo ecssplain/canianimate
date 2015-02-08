@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- <meta name="viewport" content="initial-scale=1.0"> -->
+    <meta name="viewport" content="initial-scale=1.0">
     <title>Can I Animate&hellip;?</title>
     <link rel="stylesheet" href="main.css">
 </head>
@@ -20,7 +20,7 @@
         </label></p>
     </form>
 
-    <div id="results"></div>
+    <div id="results" class="results"></div>
 
     <script id="tpl-result" type="text/x-mustache-template">
         <div class="result result-{{className}}">
@@ -74,13 +74,14 @@
             <ul class="longhand-list">
             {{#propertiesYes}}
                 <li>
-                    <code>{{ name }}</code> as
+                    <code>{{ name }}</code><span class="longhand-type"> as
                     {{#types}}
                         {{ prefix }} <a href="{{ href }}" class="link-animtype link-animtype-spec" data-type="{{ type }}">{{ name }}</a>
                     {{/types}}
                     {{#isShorthand}}
                         a shorthand
                     {{/isShorthand}}
+                    </span>
                 </li>
             {{/propertiesYes}}
             </ul>

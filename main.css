@@ -4,13 +4,11 @@ body, input {
     /* Use the good fonts if they're available, but I'm not bothering with web font bloat */
     font-family: "Open Sans", "Fira Sans", sans-serif;
     font-weight: 300;
+    font-size: 1em;
     line-height: 1.5;
 }
 body {
-    margin: 1.5em;
-}
-body > ins {
-    margin: 0 1.5em;
+    margin: 0;
 }
 a {
     color: #fff;
@@ -24,60 +22,69 @@ a:hover {
 }
 blockquote {
     font-style: italic;
+    margin: 1em 0.75rem;
 }
 code {
-    font-family: "Fira Mono", Menlo, "Consolas", "Courier New";
+    font-family: "Fira Mono", Menlo, "Consolas", "Courier New", monospace;
+    font-size: 1em;
 }
-form {
-    padding: 0 0.5265em;
-}
+
 .big-text {
-    font-size: 2em;
+    font-size: 1.625em;
+    margin: 0 0.5rem;
+}
+.big-text p:first-child {
+    margin-top: 0.5em;
 }
 .big-text label {
     line-height: 1.25;
 }
 .big-text input[type=text] {
-    font-size: 1em;
     border: 0 solid #999;
     border-bottom-width: 1px;
+    border-radius: 0;
     padding: 0 0.1em;
+    width: calc(100% - 1em);
 }
 .big-text input[type=text]:focus {
     background-color: #283A3D;
     outline: none;
 }
-#results {
-    font-size: 1.125em;
+.results {
     display: none;
 }
-#results.has-results {
+.results.has-results {
     display: block;
 }
 
 .result {
     background-color: #033154;
-    border-radius: 0.25em;
     overflow: hidden;
 }
-.result .headline {
-    padding: 0 0.75em;
-}
 .headline {
-    font-size: 1.33333333em;
+    font-size: 1.25em;
+}
+.result .headline {
+    margin: 0 0.75rem;
 }
 .animtype {
     background-color: #065896;
-    border-radius: 0.25em;
+    font-size: 1.125em;
     overflow: hidden;
-    padding: 0 1em;
+    padding: 0 0.75rem;
 }
 .animtype h2 {
     font-size: 1em;
 }
+.animtype h2 small {
+    display: block;
+    margin-left: 0.75rem;
+}
+
 .shorthand-details {
     border-top: 1px dashed #fff;
-    margin: 0 1em;
+    font-size: 1.125em;
+    margin: 0 0.75rem 1em;
     overflow: hidden;
 }
 .shorthand-unanimatable {
@@ -85,20 +92,72 @@ form {
     color: rgba(255, 255, 255, 0.6);
 }
 .longhand-list {
-    display: table;
     line-height: 1.5;
-}
-.longhand-list li {
-    display: table-row;
+    list-style: none;
+    padding-left: 0.75rem;
 }
 .longhand-list li::before {
     content: '»';
     margin-right: 0.25em;
 }
 .longhand-list code {
-    display: table-cell;
     padding-right: 1em;
 }
+.longhand-type {
+    display: block;
+    margin-left: 3em;
+}
+
+
+@media (min-width: 25em) {
+    body {
+        margin: 1.5em;
+    }
+    .result {
+        border-radius: 0.25em;
+    }
+    .animtype {
+        border-radius: 0.25em;
+    }
+    .animtype h2 small {
+        display: inline;
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 30em) {
+    .longhand-list li {
+        display: table-row;
+    }
+    .longhand-list code {
+        display: table-cell;
+    }
+}
+
+@media (min-width: 47em) {
+    .big-text input[type=text] {
+        width: 10em;
+    }
+    .big-text {
+        font-size: 1.875em;
+        margin-left: 1.25rem;
+    }
+    .headline {
+        font-size: 1.5em;
+    }
+    .result .headline,
+    .shorthand-details {
+        margin-left: 1.25rem;
+        margin-right: 1.25rem;
+    }
+    .animtype {
+        padding: 0 1.25rem;
+    }
+    .longhand-list {
+        padding-left: 1.25rem;
+    }
+}
+
 
 /* These rules from w3.org, to match the visual display of specs */
 .spec .css::before {content: "\2018";}
@@ -117,12 +176,5 @@ form {
 }
 .result-unknown {
     background-color: rgb(65, 62, 62);
-}
-.result em {
-    white-space: nowrap;
-}
-.result small {
-    font-size: 0.75em;
-    font-style: italic;
 }
 */
