@@ -1,5 +1,5 @@
 body, input {
-    background-color: #23282C;
+    background-color: hsl(207, 11%, 15%);
     color: #fff;
     /* Use the good fonts if they're available, but I'm not bothering with web font bloat */
     font-family: "Open Sans", "Fira Sans", sans-serif;
@@ -47,28 +47,56 @@ code {
     width: calc(100% - 1em);
 }
 .big-text input[type=text]:focus {
-    background-color: #283A3D;
+    background-color: hsl(189, 21%, 20%);
     outline: none;
 }
 .results {
     display: none;
+    position: relative;
 }
 .results.has-results {
     display: block;
 }
 
 .result {
-    background-color: #033154;
+    background-color: hsl(206, 93%, 17%);
     overflow: hidden;
+}
+.result::before {
+    border-radius: 0.25em 0.25em 0.35em 0.35em / 0.25em 0.25em 1em 1em;
+    box-sizing: border-box;
+    display: block;
+    left: 0.75rem;
+    padding: 0.125em 0.5em;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    transform: translateY(-50%);
+    font-weight: bold;
+}
+.result-yes::before,
+.result-shorthand-yes::before {
+    background-color: hsl(146, 95%, 19%);
+    content: '✔︎';
+}
+.result-no::before {
+    background-color: hsl(14, 83%, 31%);
+    content: '✘';
+}
+.result-shorthand-mixed::before {
+    background-color: hsl(76, 97%, 18%);
+    content: '~';
+}
+.result-sortof::before {
+    background-color: hsl(29, 51%, 34%);
+    content: '!?';
 }
 .headline {
     font-size: 1.25em;
-}
-.result .headline {
     margin: 0 0.75rem;
 }
 .animtype {
-    background-color: #065896;
+    background-color: hsl(206, 92%, 31%);
     font-size: 1.125em;
     overflow: hidden;
     padding: 0 0.75rem;
@@ -113,9 +141,7 @@ code {
     body {
         margin: 1.5em;
     }
-    .result {
-        border-radius: 0.25em;
-    }
+    .result,
     .animtype {
         border-radius: 0.25em;
     }
@@ -142,10 +168,13 @@ code {
         font-size: 1.875em;
         margin-left: 1.25rem;
     }
+    .result::before {
+        left: 1.25rem;
+    }
     .headline {
         font-size: 1.5em;
     }
-    .result .headline,
+    .headline,
     .shorthand-details {
         margin-left: 1.25rem;
         margin-right: 1.25rem;
@@ -163,18 +192,3 @@ code {
 .spec .css::before {content: "\2018";}
 .spec .css::after {content: "\2019";}
 .spec code.css {font-family: inherit;}
-
-/*
-.result-yes, .result-shorthand-yes {
-    background-color: rgb(21, 92, 44);
-}
-.result-no {
-    background-color: rgb(124, 22, 9);
-}
-.result-sortof, .result-shorthand-mixed {
-    background-color: #054575;
-}
-.result-unknown {
-    background-color: rgb(65, 62, 62);
-}
-*/
