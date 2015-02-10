@@ -130,37 +130,62 @@ code {
     content: '»';
     margin-right: 0.25em;
 }
-.longhand-list code {
-    padding-right: 1em;
-}
 .longhand-type {
     display: block;
     margin-left: 3em;
 }
 
 
+
+/**
+ * BREAKPOINT: A little bit of breathing room.
+ *
+ * - Space the content away from the window edges
+ * - Round the content corners a tad
+ */
+
 @media (min-width: 25em) {
     body {
-        margin: 1.5em;
+        margin: 0.75rem;
     }
     .result,
     .animtype {
         border-radius: 0.25em;
     }
+}
+
+
+/**
+ * BREAKPOINT: Space for side-by-side content.
+ *
+ * - Animation type sub-header moves inline
+ * - Longhand property and type details sit in columns
+ */
+
+@media (min-width: 35em) {
     .animtype h2 small {
         display: inline;
         margin-left: 0;
     }
-}
-
-@media (min-width: 30em) {
     .longhand-list li {
         display: table-row;
     }
     .longhand-list code {
         display: table-cell;
     }
+    .longhand-type {
+        margin-left: 1em;
+    }
 }
+
+
+/**
+ * BREAKPOINT: Lotsa room for some better personal space boundaries.
+ *
+ * - Bigger fonts
+ * - More spacing between content sections
+ * - Main input moves inline
+ */
 
 @media (min-width: 47em) {
     .big-text input[type=text] {
@@ -190,7 +215,7 @@ code {
 }
 
 
-/* These rules from w3.org, to match the visual display of specs */
+/* These rules copied from w3.org, to match the visual display of specs */
 .spec .css::before {content: "\2018";}
 .spec .css::after {content: "\2019";}
 .spec code.css {font-family: inherit;}
