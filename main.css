@@ -16,7 +16,7 @@ a {
     border-bottom: 1px solid currentColor;
 }
 a:hover {
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255, 255, 255, 0.2);
     border-bottom-color: transparent;
     border-radius: 1px;
 }
@@ -25,7 +25,7 @@ blockquote {
     margin: 1em 0.75rem;
 }
 code {
-    font-family: "Fira Mono", Menlo, "Consolas", "Courier New", monospace;
+    font-family: "Fira Mono", Menlo, Consolas, "Courier New", monospace;
     font-size: 1em;
 }
 
@@ -71,7 +71,9 @@ code {
     position: absolute;
     text-align: center;
     top: 0;
-    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
     font-weight: bold;
 }
 .result-yes::before,
