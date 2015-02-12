@@ -3,13 +3,10 @@
 echo =========================
 echo GZIP All Html, css and js
 echo =========================
-cp -r _site _deploy
-find _deploy/ -iname '*.html' -exec gzip -n {} +
-find _deploy/ -iname '*.js' -exec gzip -n {} +
-find _deploy/ -iname '*.css' -exec gzip -n {} +
-find _deploy/ -iname '*.ico' -exec gzip -n {} +
-find _deploy/ -iname '*.svg' -exec gzip -n {} +
-find _deploy/ -iname "*.gz" -exec bash -c 'mv "$0" "${0%\.gz}"' {} \;
+# cp -r _site _deploy
+find . -iname 'index.html' -exec gzip -n {} +
+find . -iname '404.html' -exec gzip -n {} +
+find . -iname "*.gz" -exec bash -c 'mv "$0" "${0%\.gz}"' {} \;
 echo done.
 
 echo ==================
@@ -17,7 +14,8 @@ echo Syncing to S3
 echo ==================
 
 # sync gzipped html files
-s3cmd sync --progress --acl-public --cf-invalidate --rr --mime-type="text/html; charset=utf-8" --add-header 'Content-Encoding:gzip' --add-header 'Cache-Control: max-age=300, must-revalidate' _deploy/ s3://canianimate.com/ --exclude '*.*' --include '*.html'
+s3cmd sync --progress --acl-public --cf-invalidate --rr --mime-type="text/html; charset=utf-8" --add-header 'Content-Encoding:gzip' --add-header 'Cache-Control: max-age=300, must-revalidate' . s3://canianimate.com/ --exclude '*.*' --include 'index.html'
+s3cmd sync --progress --acl-public --cf-invalidate --rr --mime-type="text/html; charset=utf-8" --add-header 'Content-Encoding:gzip' --add-header 'Cache-Control: max-age=300, must-revalidate' . s3://canianimate.com/ --exclude '*.*' --include '404.html'
 
 # sync non gzipped, non js/css/image files
 #s3cmd sync --progress --acl-public --cf-invalidate _deploy/ s3://seancurtis.com/ --exclude '*.sh' --exclude 'assets/*' --exclude '*.html' --exclude '*.ico' --exclude '*.js' --exclude '*.css' --exclude '*.png' --exclude '*.svg'
@@ -28,10 +26,10 @@ s3cmd sync --progress --acl-public --cf-invalidate --rr --mime-type="text/html; 
 # sync all non gzipped css, js and image files to the static bucket (e.g. images)
 #s3cmd sync --progress --acl-public --cf-invalidate --add-header 'Cache-Control: max-age=86400' _deploy/ s3://seancurtis.com/ --exclude '*.*'  --include '*.png'
 
-echo ==================
-echo Cleaning up _deploy
-echo ==================
+# echo ==================
+# echo Cleaning up _deploy
+# echo ==================
 
-rm -rf _deploy
+# rm -rf _deploy
 
 exit 0
