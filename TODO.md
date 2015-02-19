@@ -11,4 +11,4 @@
 * Use Open Search protocol for searching from the address bar (requires URL permalinks) (#6)
 * A compatibility matrix for browser support of animating certain properties, like @kangax's ES5 support matrix.
 * Easter eggs (re-animate corpses)
-* Add cavetas, gotchas, etc. for certain properties (e.g. trying to transition to/from `height: auto`) (#8)
+* Add caveats, gotchas, etc. for certain properties (e.g. trying to transition to/from `height: auto`) (#8)
