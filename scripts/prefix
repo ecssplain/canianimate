@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+/**
+ * A basic wrapper for autoprefixer.
+ * Hand-rolled to avoid Grunt/Gulp/Flavour-of-the-month.
+ */
+
+var fs = require('fs'),
+    glob = require('glob'),
+    path = require('path'),
+    helpers = require('./helpers'),
+    autoprefixer = require('autoprefixer');
+
+var processor = autoprefixer({browsers: ['> 1%', 'last 2 versions']});
+
+glob(helpers.path('*.css'), function (err, files) {
+    if (err) return console.error(err);
+    files.forEach(function (file) {
+        var fileparts = helpers.parts(file);
+        var outputpath = helpers.processedPath(file);
+        var outputname = path.basename(outputpath);
+
+        var input = fs.readFileSync(file);
+        var output = processor.process(input);
+        fs.writeFileSync(outputpath, output);
+        console.log('prefixed ' + fileparts.filename + fileparts.ext + ' to ' + path.basename(helpers.buildDir) + '/' + outputname);
+    });
+});

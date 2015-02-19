@@ -1,4 +1,5 @@
 node_modules
-index.html
+_build
+_deploy
 DESIGN.txt
 scratchpad

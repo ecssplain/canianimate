@@ -14,13 +14,15 @@
   },
   "homepage": "http://canianimate.com/",
   "scripts": {
-    "prefix": "autoprefixer -b '> 1%, last 2 versions' main.css",
+    "prefix": "./scripts/prefix",
     "build": "npm run prefix && ./scripts/inline -m"
   },
   "devDependencies": {
     "autoprefixer": "^5.1.0",
     "css-animated-properties": "^1.0.0",
     "css-shorthand-properties": "^1.0.0",
+    "fs-extra": "^0.16.3",
+    "glob": "^4.4.0",
     "html-minifier": "^0.6.9",
     "inline-source": "^1.1.2",
     "mustache": "^1.0.0"
