@@ -4,23 +4,41 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0">
-    <title>Can I Animate&hellip;?</title>
+    <title>Can I animate&hellip;?</title>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <!--
-    <ins class="adsbygoogle"
-         style="display:inline-block;width:728px;height:15px"
-         data-ad-client="ca-pub-7118236262429348"
-         data-ad-slot="4611024980"></ins>
-     -->
-    <form action="#" id="search-form" class="big-text">
-        <p><label for="search-property">
-            Using CSS, can I animate <input type="text" id="search-property" autofocus placeholder="<CSS property>" autocapitalize="off">?
-        </label></p>
-    </form>
+    <main role="main">
+        <!--
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:15px"
+             data-ad-client="ca-pub-7118236262429348"
+             data-ad-slot="4611024980"></ins>
+         -->
+        <form action="#" id="search-form" class="big-text" role="search">
+            <p><label for="search-property">
+                Using CSS, can I animate <input type="text" id="search-property" autofocus placeholder="<CSS property>" autocapitalize="off" autocomplete="off">?
+            </label></p>
+        </form>
 
-    <div id="results" class="results"></div>
+        <div id="results" class="results" aria-live="assertive"></div>
+
+        <section id="about" class="about">
+            <h2>What’s this all about then, eh?</h2>
+            <p>“Can I animate?” is a site inspired by <a href="http://caniuse.com/">Can I use</a>, but focused specifically on CSS animations and transitions.</p>
+            <p>The aim is to provide a comprehensive reference of which CSS properties can and can‘t be animated, and exactly how the animations are calculated by browsers.</p>
+            <p>Admittedly, it’s not complete yet (ship early and iterate) – there’s a rough roadmap of planned features on <a href="https://github.com/ecssplain/canianimate/issues">GitHub</a>.</p>
+            <p>The site is maintained by <a href="https://twitter.com/iamnotyourbroom">Gilmore Davidson</a> with assistance from <a href="https://twitter.com/seancurtis">Sean Curtis</a>.</p>
+        </section>
+    </main>
+
+    <footer>
+        <ul class="footer-nav" role="navigation">
+            <li><a href="#about">About this site</a></li>
+            <li><a href="https://github.com/ecssplain/canianimate">Source code</a></li>
+            <li><a href="https://github.com/ecssplain/canianimate/issues">Bugs / feature requests</a></li>
+        </ul>
+    </footer>
 
     <script id="tpl-result" type="text/x-mustache-template">
         <div class="result result-{{className}}">

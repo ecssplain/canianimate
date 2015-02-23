@@ -6,20 +6,41 @@
  * modules, sometimes with outdated versions that I don't want.
  */
 
-var fs = require('fs'),
+var fs = require('fs-extra'),
     path = require('path'),
+    helpers = require('./helpers'),
     inlineSource = require('inline-source'),
     minify = require('html-minifier').minify;
 
-var inputPath = 'main.html';
-var outputPath = 'index.html';
-var mainDir = path.resolve(__dirname + '/../') + '/';
+var inputFile = 'main.html';
+var outputFile = 'index.html';
+var contents = '';
 
-// Inline
-var contents = inlineSource(mainDir + inputPath, {
+// Parse sources
+var file = helpers.path(inputFile);
+var html = fs.readFileSync(file, 'utf8');
+var inlineOpts = {
     compress: false,
     attribute: ''
+};
+var sources = inlineSource.parse(file, html, inlineOpts);
+
+// Rewrite CSS links to point to autoprefixed files, if found
+sources.forEach(function (source) {
+    if (source.type === 'css' && source.inline) {
+        var newpath = helpers.processedPath(source.filepath);
+        try {
+            var stats = fs.statSync(newpath);
+            if (stats && stats.isFile()) {
+                source.filepath = newpath;
+            }
+        } catch (e) {}
+    }
 });
+
+// Perform the inlining of scripts and styles
+contents = inlineSource.inline(sources, html, inlineOpts);
+
 
 // Minify (optional with -m argument)
 if (process.argv[2] === '-m') {
@@ -33,4 +54,6 @@ if (process.argv[2] === '-m') {
 }
 
 // Write to file
-fs.writeFileSync(mainDir + outputPath, contents);
+fs.writeFileSync(path.join(helpers.deployDir, outputFile), contents);
+
+console.log('generated ' + path.join(path.basename(helpers.deployDir), outputFile));

@@ -1,3 +1,5 @@
+/* Generic elements */
+
 body, input {
     background-color: hsl(207, 11%, 15%);
     color: #fff;
@@ -8,7 +10,10 @@ body, input {
     line-height: 1.5;
 }
 body {
+    display: flex;
+    flex-direction: column;
     margin: 0;
+    min-height: 100vh;
 }
 a {
     color: #fff;
@@ -28,6 +33,14 @@ code {
     font-family: "Fira Mono", Menlo, Consolas, "Courier New", monospace;
     font-size: 1em;
 }
+main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+
+/* Search form */
 
 .big-text {
     font-size: 1.625em;
@@ -50,6 +63,10 @@ code {
     background-color: hsl(189, 21%, 20%);
     outline: none;
 }
+
+
+/* Results */
+
 .results {
     display: none;
     position: relative;
@@ -57,7 +74,6 @@ code {
 .results.has-results {
     display: block;
 }
-
 .result {
     background-color: hsl(206, 93%, 17%);
     overflow: hidden;
@@ -71,9 +87,7 @@ code {
     position: absolute;
     text-align: center;
     top: 0;
-    -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-            transform: translateY(-50%);
+    transform: translateY(-50%);
     font-weight: bold;
 }
 .result-yes::before,
@@ -110,7 +124,6 @@ code {
     display: block;
     margin-left: 0.75rem;
 }
-
 .shorthand-details {
     border-top: 1px dashed #fff;
     font-size: 1.125em;
@@ -136,6 +149,41 @@ code {
 }
 
 
+/* About section */
+
+.about {
+    background-color: hsl(181, 93%, 20%);
+    display: none;
+    font-size: 1.125em;
+    overflow: hidden;
+    padding: 0 0.75em;
+}
+.about:target {
+    display: block;
+}
+.about h2 {
+    font-size: 1em;
+}
+
+
+/* Footer */
+
+.footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 1.5em 0 1em;
+    padding: 0;
+}
+.footer-nav li {
+    margin: 0.125em 0.75rem;
+}
+.footer-nav li::before {
+    content: '•';
+    margin-right: 0.25em;
+}
+
+
 
 /**
  * BREAKPOINT: A little bit of breathing room.
@@ -147,10 +195,15 @@ code {
 @media (min-width: 25em) {
     body {
         margin: 0.75rem;
+        min-height: calc(100vh - 1.5rem);
     }
     .result,
-    .animtype {
+    .animtype,
+    .about {
         border-radius: 0.25em;
+    }
+    .about {
+        margin-top: 0.75rem;
     }
 }
 
@@ -160,6 +213,7 @@ code {
  *
  * - Animation type sub-header moves inline
  * - Longhand property and type details sit in columns
+ * - Footer links are centre-aligned
  */
 
 @media (min-width: 35em) {
@@ -175,6 +229,9 @@ code {
     }
     .longhand-type {
         margin-left: 1em;
+    }
+    footer ul {
+        justify-content: center;
     }
 }
 
@@ -211,6 +268,10 @@ code {
     }
     .longhand-list {
         padding-left: 1.25rem;
+    }
+    .about {
+        margin-top: 1.25rem;
+        padding: 0 1.25rem;
     }
 }
 
