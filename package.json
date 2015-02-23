@@ -14,8 +14,11 @@
   },
   "homepage": "http://canianimate.com/",
   "scripts": {
+    "clean": "rm -rf _build/ _deploy/",
     "prefix": "./scripts/prefix",
-    "build": "npm run prefix && ./scripts/inline -m"
+    "build": "npm run prefix && ./scripts/inline -m",
+    "deploy": "./scripts/deploy",
+    "fulldeploy": "npm run build && npm run deploy"
   },
   "devDependencies": {
     "autoprefixer": "^5.1.0",
