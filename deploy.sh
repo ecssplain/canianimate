@@ -3,6 +3,7 @@
 echo =========================
 echo GZIP All Html, css and js
 echo =========================
+mkdir _deploy
 cp 404.html _deploy
 cp index.html _deploy
 
