@@ -22,8 +22,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^5.1.0",
-    "css-animated-properties": "^1.0.0",
-    "css-shorthand-properties": "^1.0.0",
+    "css-animated-properties": "^1.1.0",
+    "css-shorthand-properties": "^1.1.0",
     "fs-extra": "^0.16.3",
     "glob": "^4.4.0",
     "html-minifier": "^0.6.9",
