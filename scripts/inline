@@ -16,31 +16,28 @@ var inputFile = 'main.html';
 var outputFile = 'index.html';
 var contents = '';
 
-// Parse sources
-var file = helpers.path(inputFile);
-var html = fs.readFileSync(file, 'utf8');
-var inlineOpts = {
-    compress: false,
-    attribute: ''
-};
-var sources = inlineSource.parse(file, html, inlineOpts);
-
 // Rewrite CSS links to point to autoprefixed files, if found
-sources.forEach(function (source) {
-    if (source.type === 'css' && source.inline) {
+function usePrefixedFile(source) {
+    if (source.type === 'css') {
         var newpath = helpers.processedPath(source.filepath);
         try {
             var stats = fs.statSync(newpath);
             if (stats && stats.isFile()) {
                 source.filepath = newpath;
+                source.fileContent = fs.readFileSync(newpath, 'utf-8');
             }
         } catch (e) {}
     }
-});
+}
 
 // Perform the inlining of scripts and styles
-contents = inlineSource.inline(sources, html, inlineOpts);
-
+var file = helpers.path(inputFile);
+var inlineOpts = {
+    compress: false,
+    attribute: false,
+    handlers: [usePrefixedFile],
+};
+contents = inlineSource.sync(file, inlineOpts);
 
 // Minify (optional with -m argument)
 if (process.argv[2] === '-m') {

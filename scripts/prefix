@@ -5,13 +5,13 @@
  * Hand-rolled to avoid Grunt/Gulp/Flavour-of-the-month.
  */
 
-var fs = require('fs'),
+var fs = require('fs-extra'),
     glob = require('glob'),
     path = require('path'),
     helpers = require('./helpers'),
     autoprefixer = require('autoprefixer');
 
-var processor = autoprefixer({browsers: ['> 1%', 'last 2 versions']});
+var autoprefixerOpts = { browsers: ['> 1%', 'last 2 versions'] };
 
 glob(helpers.path('*.css'), function (err, files) {
     if (err) return console.error(err);
@@ -20,8 +20,8 @@ glob(helpers.path('*.css'), function (err, files) {
         var outputpath = helpers.processedPath(file);
         var outputname = path.basename(outputpath);
 
-        var input = fs.readFileSync(file);
-        var output = processor.process(input);
+        var input = fs.readFileSync(file, 'utf-8');
+        var output = autoprefixer.process(input, autoprefixerOpts);
         fs.writeFileSync(outputpath, output);
         console.log('prefixed ' + fileparts.filename + fileparts.ext + ' to ' + path.basename(helpers.buildDir) + '/' + outputname);
     });

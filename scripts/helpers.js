@@ -13,7 +13,7 @@ helpers.path = function (filepath) {
 
 helpers.checkdir = function (dirname) {
     var fullpath = helpers.path(dirname);
-    fs.ensureDir(fullpath);
+    fs.ensureDirSync(fullpath);
     return fullpath;
 };
 

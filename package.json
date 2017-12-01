@@ -20,14 +20,16 @@
     "deploy": "./scripts/deploy",
     "fulldeploy": "npm run build && npm run deploy"
   },
-  "devDependencies": {
-    "autoprefixer": "^5.1.0",
+  "dependencies": {
     "css-animated-properties": "^1.1.0",
     "css-shorthand-properties": "^1.1.0",
-    "fs-extra": "^0.16.3",
-    "glob": "^4.4.0",
-    "html-minifier": "^0.6.9",
-    "inline-source": "^1.1.2",
-    "mustache": "^1.0.0"
+    "mustache": "^2.3.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.1.6",
+    "fs-extra": "^4.0.2",
+    "glob": "^7.1.2",
+    "html-minifier": "^3.5.7",
+    "inline-source": "^5.2.6"
   }
 }
