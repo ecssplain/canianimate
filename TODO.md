@@ -19,7 +19,7 @@ Ideas / things to do
 Revamp
 ------
 
-[/] Update all property definitions
+- [x] Update all property definitions
     1. Add automation
         1. Create a parser for CSS specs — use HTML output or Bikeshed source?
         2. Update all specs to latest
@@ -28,11 +28,10 @@ Revamp
             (<https://www.w3.org/Style/CSS/all-properties.en.json>)
     2. Update `css-animated-properties`
     3. Update `css-shorthand-properties`
-        1. Some manual processing will be needed to define the expanded
-            properties correctly
-[] Work out how to include SVG properties as well
-[] Come up with new design
+        1. Some manual processing will be needed to define the expanded properties correctly
+- [ ] Come up with new design
     * See issues for more info
     * Use a phased approach — start with new display of what currently exists, then add things later
-[] Implement new design for existing content
-[] Start adding new feature suggestions
+- [ ] Work out how to include SVG properties as well
+- [ ] Implement new design for existing content
+- [ ] Start adding new feature suggestions

@@ -3,21 +3,29 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0">
     <title>404: Nothing to see here</title>
     <style>
         body {
             background-color: hsl(207, 11%, 15%);
             color: #fff;
             /* Use the good fonts if they're available, but I'm not bothering with web font bloat */
-            font-family: "Open Sans", "Fira Sans", sans-serif;
+            font-family: "Fira Sans", "Trebuchet MS", Tahoma, sans-serif;
             font-weight: 300;
             font-size: 1em;
             line-height: 1.5;
             margin: 1.5em;
         }
+        a {
+            color: inherit;
+            text-decoration: underline;
+        }
+        a:hover {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-    <p>404: Nothing to see here</p>
+    <p>404: Nothing to see here. You should try the <a href="/">home page</a>.</p>
 </body>
 </html>
